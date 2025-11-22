@@ -1,6 +1,9 @@
 package br.com.marcusferraz.agentecompras.service;
 
 import br.com.marcusferraz.agentecompras.dto.ProdutoDTO;
+import br.com.marcusferraz.agentecompras.model.HistoricoPreco;
+import br.com.marcusferraz.agentecompras.model.Produto;
+import br.com.marcusferraz.agentecompras.repository.ProdutoRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +14,12 @@ import java.io.IOException;
 @Service
 public class ScraperService {
 
+    private final ProdutoRepository produtoRepository;
+
+    public ScraperService(ProdutoRepository produtoRepository) {
+        this.produtoRepository = produtoRepository;
+    }
+
     public ProdutoDTO buscarNaAmazon(String url) {
         try {
             Document doc = Jsoup.connect(url)
@@ -19,23 +28,32 @@ public class ScraperService {
                     .get();
 
             Element tituloEl = doc.selectFirst("#productTitle");
+            String titulo = (tituloEl != null) ? tituloEl.text() : "Título não encontrado";
+
             Element precoInteiroEl = doc.selectFirst(".a-price-whole");
             Element precoFracaoEl = doc.selectFirst(".a-price-fraction");
 
-            String titulo = (tituloEl != null) ? tituloEl.text() : "Título não encontrado";
-            String preco = "Indisponível";
-
+            Double precoFinal = 0.0;
             if (precoInteiroEl != null) {
-                preco = precoInteiroEl.text();
+                String precoTexto = precoInteiroEl.text().replace(".", "").replace(",", ".");
+                precoFinal = Double.parseDouble(precoTexto);
                 if (precoFracaoEl != null) {
-                    preco += precoFracaoEl.text();
+                    precoFinal += Double.parseDouble(precoFracaoEl.text()) / 100;
                 }
             }
 
-            return new ProdutoDTO(titulo, "R$ " + preco, url);
+            Produto produto = produtoRepository.findByUrl(url)
+                    .orElse(new Produto(url, titulo));
+
+            HistoricoPreco historico = new HistoricoPreco(precoFinal, produto);
+            produto.getHistorico().add(historico);
+
+            produtoRepository.save(produto);
+
+            return new ProdutoDTO(titulo, "R$ " + precoFinal, url);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ProdutoDTO("Erro ao buscar", "0.00", url);
+            return null;
         }
     }
 }
