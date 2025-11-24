@@ -30,8 +30,8 @@ public class ScraperService {
             Element tituloEl = doc.selectFirst("#productTitle");
             String titulo = (tituloEl != null) ? tituloEl.text() : "Título não encontrado";
 
-            Element precoInteiroEl = doc.selectFirst(".a-price-whole");
-            Element precoFracaoEl = doc.selectFirst(".a-price-fraction");
+            Element precoInteiroEl = doc.selectFirst("#ppd .a-price-whole");
+            Element precoFracaoEl = doc.selectFirst("#ppd .a-price-fraction");
 
             Double precoFinal = 0.0;
             if (precoInteiroEl != null) {
