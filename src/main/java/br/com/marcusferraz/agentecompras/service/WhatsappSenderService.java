@@ -12,7 +12,7 @@ public class WhatsappSenderService {
 
     private final RestClient restClient;
 
-    @Value("${evoliton.url}")
+    @Value("${evolution.url}")
     private String evolutionUrl;
 
     @Value("${evolution.token}")
@@ -30,13 +30,8 @@ public class WhatsappSenderService {
 
         Map<String, Object> body = Map.of(
                 "number", numeroDestino,
-                "options", Map.of(
-                        "delay", 1200,
-                        "presence", "composing"
-                ),
-                "textMessage", Map.of(
-                        "text", texto
-                )
+                "delay", 1200,
+                "text", texto
         );
 
         try {

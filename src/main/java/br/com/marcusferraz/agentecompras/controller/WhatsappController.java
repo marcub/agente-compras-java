@@ -3,6 +3,8 @@ package br.com.marcusferraz.agentecompras.controller;
 import br.com.marcusferraz.agentecompras.dto.ProdutoDTO;
 import br.com.marcusferraz.agentecompras.service.ScraperService;
 import br.com.marcusferraz.agentecompras.service.WhatsappSenderService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,22 +19,31 @@ public class WhatsappController {
     private final ScraperService scraperService;
     private final WhatsappSenderService whatsappSenderService;
 
+    @Value("${admin.whatsapp.number}")
+    private String adminNumber;
+
     public WhatsappController(ScraperService scraperService, WhatsappSenderService whatsappSenderService) {
         this.scraperService = scraperService;
         this.whatsappSenderService = whatsappSenderService;
     }
 
+    @PostMapping
     public void receberMensagem(@RequestBody Map<String, Object> payload) {
         try {
             Map<String, Object> data = (Map<String, Object>) payload.get("data");
             if (data == null) return;
 
-            Map<String, Object> key = (Map<String, Object>) payload.get("key");
+            Map<String, Object> key = (Map<String, Object>) data.get("key");
             boolean fromMe = (boolean) key.get("fromMe");
 
             if (fromMe) return;
 
             String remoteJid = (String) key.get("remoteJid");
+
+            if (!remoteJid.startsWith(adminNumber)) {
+                System.out.println("⛔ Acesso negado para: " + remoteJid);
+                return;
+            }
 
             Map<String, Object> message = (Map<String, Object>) data.get("message");
             String texto = "";
