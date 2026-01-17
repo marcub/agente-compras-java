@@ -8,25 +8,23 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "short_links")
 @Getter
 @Setter
 @NoArgsConstructor
-public class HistoricoPreco {
+public class ShortLink {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double valor;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String url;
 
-    private LocalDateTime dataVerificacao = LocalDateTime.now();
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "produto_id")
-    private Produto produto;
-
-    public HistoricoPreco(Double valor, Produto produto) {
-        this.valor = valor;
-        this.produto = produto;
+    public ShortLink(String url) {
+        this.url = url;
     }
 }

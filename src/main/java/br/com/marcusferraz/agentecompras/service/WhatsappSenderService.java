@@ -1,5 +1,7 @@
 package br.com.marcusferraz.agentecompras.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,8 @@ import java.util.Map;
 
 @Service
 public class WhatsappSenderService {
+
+    private static final Logger logger = LoggerFactory.getLogger(WhatsappSenderService.class);
 
     private final RestClient restClient;
 
@@ -25,13 +29,13 @@ public class WhatsappSenderService {
         this.restClient = RestClient.create();
     }
 
-    public void enviarTexto(String numeroDestino, String texto) {
+    public void sendText(String whatsappId, String text) {
         String uri = evolutionUrl + "/message/sendText/" + instance;
 
         Map<String, Object> body = Map.of(
-                "number", numeroDestino,
+                "number", whatsappId,
                 "delay", 1200,
-                "text", texto
+                "text", text
         );
 
         try {
@@ -43,9 +47,9 @@ public class WhatsappSenderService {
                     .retrieve()
                     .toBodilessEntity();
 
-            System.out.println("📤 Resposta enviada para: " + numeroDestino);
+            logger.info("Sending message to: {}", whatsappId);
         } catch (Exception e) {
-            System.err.println("Erro ao enviar mensagem: " + e.getMessage());
+            logger.error("Error sending message to: {}", whatsappId, e);
         }
     }
 }

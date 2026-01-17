@@ -14,7 +14,7 @@ services:
       - agente-network
 
   evolution-api:
-    image: atendai/evolution-api:v2.1.1
+    image: evoapicloud/evolution-api:v2.3.7
     container_name: evolution-api
     restart: always
     ports:
@@ -27,7 +27,6 @@ services:
       - DATABASE_CONNECTION_URI=postgresql://postgres:postgres@postgres:5432/evolution_db
       - DATABASE_CLIENT_NAME=evolution_exchange
       - CACHE_REDIS_ENABLED=false
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1025062854
     networks:
       - agente-network
 
