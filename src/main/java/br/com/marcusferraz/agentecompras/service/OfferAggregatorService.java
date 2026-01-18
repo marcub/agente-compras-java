@@ -3,7 +3,7 @@ package br.com.marcusferraz.agentecompras.service;
 import br.com.marcusferraz.agentecompras.dto.ProductDTO;
 import br.com.marcusferraz.agentecompras.model.enums.SearchLogStatus;
 import br.com.marcusferraz.agentecompras.model.enums.Store;
-import br.com.marcusferraz.agentecompras.service.presentation.WhatsappPresenter;
+import br.com.marcusferraz.agentecompras.service.formatter.WhatsappMessageFormatter;
 import br.com.marcusferraz.agentecompras.service.search.StoreSearcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +21,15 @@ public class OfferAggregatorService {
     private static final Logger logger = LoggerFactory.getLogger(OfferAggregatorService.class);
     private final List<StoreSearcher> storeSearchers;
     private final WhatsappSenderService whatsappSenderService;
-    private final WhatsappPresenter whatsappPresenter;
+    private final WhatsappMessageFormatter whatsappMessageFormatter;
     private final GroqService groqService;
     private final SearchLogService searchLogService;
     private final ChatMessageService chatMessageService;
 
-    public OfferAggregatorService(List<StoreSearcher> storeSearchers, WhatsappSenderService whatsappSenderService, WhatsappPresenter whatsappPresenter, GroqService groqService, SearchLogService searchLogService, ChatMessageService chatMessageService) {
+    public OfferAggregatorService(List<StoreSearcher> storeSearchers, WhatsappSenderService whatsappSenderService, WhatsappMessageFormatter whatsappMessageFormatter, GroqService groqService, SearchLogService searchLogService, ChatMessageService chatMessageService) {
         this.storeSearchers = storeSearchers;
         this.whatsappSenderService = whatsappSenderService;
-        this.whatsappPresenter = whatsappPresenter;
+        this.whatsappMessageFormatter = whatsappMessageFormatter;
         this.groqService = groqService;
         this.searchLogService = searchLogService;
         this.chatMessageService = chatMessageService;
@@ -57,7 +57,7 @@ public class OfferAggregatorService {
         });
 
         if (allOffers.isEmpty()) {
-            String formattedText = whatsappPresenter.formatError(term);
+            String formattedText = whatsappMessageFormatter.formatError(term);
             chatMessageService.addChatMessage(whatsappId, "assistant", formattedText);
             whatsappSenderService.sendText(whatsappId, formattedText);
             return;
@@ -102,13 +102,13 @@ public class OfferAggregatorService {
 
     private void sendComparison(List<ProductDTO> offers, String whatsappId, String term) {
         if (offers.isEmpty()) {
-            String text = whatsappPresenter.formatError(term);
+            String text = whatsappMessageFormatter.formatError(term);
             chatMessageService.addChatMessage(whatsappId, "assistant", text);
             whatsappSenderService.sendText(whatsappId, text);
             return;
         }
 
-        String formattedText = whatsappPresenter.formatComparison(offers, term);
+        String formattedText = whatsappMessageFormatter.formatComparison(offers, term);
 
         chatMessageService.addChatMessage(whatsappId, "assistant", formattedText);
         whatsappSenderService.sendText(whatsappId, formattedText);

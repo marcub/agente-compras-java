@@ -1,4 +1,4 @@
-package br.com.marcusferraz.agentecompras.service.presentation;
+package br.com.marcusferraz.agentecompras.service.formatter;
 
 import br.com.marcusferraz.agentecompras.dto.ProductDTO;
 import br.com.marcusferraz.agentecompras.service.UrlShortenerService;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class WhatsappPresenter {
+public class WhatsappMessageFormatter {
 
     private final UrlShortenerService urlShortenerService;
 
-    public WhatsappPresenter(UrlShortenerService urlShortenerService) {
+    public WhatsappMessageFormatter(UrlShortenerService urlShortenerService) {
         this.urlShortenerService = urlShortenerService;
     }
 
