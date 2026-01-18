@@ -34,46 +34,42 @@ public class WhatsappWebhookController {
 
     @PostMapping
     public void receiveMessage(@RequestBody Map<String, Object> payload) {
-        try {
-            Map<String, Object> data = (Map<String, Object>) payload.get("data");
-            if (data == null) return;
+        Map<String, Object> data = (Map<String, Object>) payload.get("data");
+        if (data == null) return;
 
-            Map<String, Object> key = (Map<String, Object>) data.get("key");
-            boolean fromMe = (boolean) key.get("fromMe");
+        Map<String, Object> key = (Map<String, Object>) data.get("key");
+        boolean fromMe = (boolean) key.get("fromMe");
 
-            if (fromMe) return;
+        if (fromMe) return;
 
-            String whatsappId = (String) key.get("remoteJid");
-            String name = (String) data.get("pushName");
-            UserDTO userDTO = new UserDTO(whatsappId, name);
+        String whatsappId = (String) key.get("remoteJid");
+        String name = (String) data.get("pushName");
+        UserDTO userDTO = new UserDTO(whatsappId, name);
 
-            userService.createUserIfNotExists(userDTO);
+        userService.createUserIfNotExists(userDTO);
 
-            Map<String, Object> message = (Map<String, Object>) data.get("message");
-            String userText = "";
+        Map<String, Object> message = (Map<String, Object>) data.get("message");
+        String userText = "";
 
-            if (message.containsKey("conversation")) {
-                userText = (String) message.get("conversation");
-            } else if (message.containsKey("extendedTextMessage")) {
-                Map<String, Object> extended = (Map<String, Object>) message.get("extendedTextMessage");
-                userText = (String) extended.get("text");
+        if (message.containsKey("conversation")) {
+            userText = (String) message.get("conversation");
+        } else if (message.containsKey("extendedTextMessage")) {
+            Map<String, Object> extended = (Map<String, Object>) message.get("extendedTextMessage");
+            userText = (String) extended.get("text");
+        }
+
+        if (userText != null) {
+            chatMessageService.addChatMessage(whatsappId, "user", userText);
+            LlmAnalysisResult result = groqService.analyzeUserIntent(userText, whatsappId);
+            if (result.isPurchaseIntent()) {
+                String assistantText = "🤖 Entendi! Pesquisando preços para: *" + result.productName() + "*...";
+                chatMessageService.addChatMessage(whatsappId, "assistant", assistantText);
+                whatsappSenderService.sendText(whatsappId, assistantText);
+                offerAggregatorService.processSearch(result.productName(), whatsappId);
+            } else {
+                chatMessageService.addChatMessage(whatsappId, "assistant", result.simpleResponse());
+                whatsappSenderService.sendText(whatsappId, result.simpleResponse());
             }
-
-            if (userText != null) {
-                chatMessageService.addChatMessage(whatsappId, "user", userText);
-                LlmAnalysisResult result = groqService.analyzeUserIntent(userText, whatsappId);
-                if (result.isPurchaseIntent()) {
-                    String assistantText = "🤖 Entendi! Pesquisando preços para: *" + result.productName() + "*...";
-                    chatMessageService.addChatMessage(whatsappId, "assistant", assistantText);
-                    whatsappSenderService.sendText(whatsappId, assistantText);
-                    offerAggregatorService.processSearch(result.productName(), whatsappId);
-                } else {
-                    chatMessageService.addChatMessage(whatsappId, "assistant", result.simpleResponse());
-                    whatsappSenderService.sendText(whatsappId, result.simpleResponse());
-                }
-            }
-        } catch (Exception e) {
-            logger.error("Error processing webhook", e);
         }
     }
 }

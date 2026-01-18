@@ -1,5 +1,6 @@
 package br.com.marcusferraz.agentecompras.service;
 
+import br.com.marcusferraz.agentecompras.exception.UserNotFoundException;
 import br.com.marcusferraz.agentecompras.model.SearchLog;
 import br.com.marcusferraz.agentecompras.model.User;
 import br.com.marcusferraz.agentecompras.model.enums.SearchLogStatus;
@@ -24,7 +25,7 @@ public class SearchLogService {
     @Async
     public void addSearchLog(String whatsappId, String term, Integer itemsFound, Store store, SearchLogStatus searchLogStatus) {
         User user = userRepository.findByWhatsappId(whatsappId)
-                .orElseThrow(() -> new RuntimeException("User not found with whatsappId: " + whatsappId));
+                .orElseThrow(() -> new UserNotFoundException("User not found with whatsappId: " + whatsappId));
 
         SearchLog newSearchLog = new SearchLog();
         newSearchLog.setUser(user);

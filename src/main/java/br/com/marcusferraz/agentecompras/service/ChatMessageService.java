@@ -1,5 +1,6 @@
 package br.com.marcusferraz.agentecompras.service;
 
+import br.com.marcusferraz.agentecompras.exception.UserNotFoundException;
 import br.com.marcusferraz.agentecompras.model.ChatMessage;
 import br.com.marcusferraz.agentecompras.model.User;
 import br.com.marcusferraz.agentecompras.model.enums.ChatMessageRole;
@@ -26,10 +27,9 @@ public class ChatMessageService {
         return chatMessageRepository.findLastMessages(whatsappId, HISTORY_MESSAGES_LIMIT);
     }
 
-    @Async
     public void addChatMessage(String whatsappId, String role, String content) {
         User user = userRepository.findByWhatsappId(whatsappId)
-                .orElseThrow(() -> new RuntimeException("User not found with whatsappId: " + whatsappId));
+                .orElseThrow(() -> new UserNotFoundException("User not found with whatsappId: " + whatsappId));
 
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setUser(user);

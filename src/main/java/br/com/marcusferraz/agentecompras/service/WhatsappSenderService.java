@@ -1,5 +1,6 @@
 package br.com.marcusferraz.agentecompras.service;
 
+import br.com.marcusferraz.agentecompras.exception.ExternalServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +50,7 @@ public class WhatsappSenderService {
 
             logger.info("Sending message to: {}", whatsappId);
         } catch (Exception e) {
-            logger.error("Error sending message to: {}", whatsappId, e);
+            throw new ExternalServiceException("Failed to send WhatsApp message to " + whatsappId, e);
         }
     }
 }
