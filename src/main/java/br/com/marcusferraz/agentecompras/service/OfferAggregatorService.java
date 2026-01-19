@@ -70,8 +70,8 @@ public class OfferAggregatorService {
 
         List<ProductDTO> finalOffers = new ArrayList<>();
         for (ProductDTO offer : bestOffers) {
-            if (offer.store() == Store.SHOPEE && offer.externalId() != null) {
-                String realLink = serpApiService.getShopeeDirectLink(offer.externalId());
+            if ((offer.store() == Store.SHOPEE || offer.store() == Store.CASAS_BAHIA) && offer.externalId() != null) {
+                String realLink = serpApiService.getDirectLink(offer.externalId(), offer.store());
                 if (realLink != null && !realLink.isEmpty()) {
                     finalOffers.add(new ProductDTO(
                             offer.title(),
