@@ -8,5 +8,10 @@ public record ProductDTO(
         String title,
         BigDecimal price,
         String url,
-        Store store
-) {}
+        Store store,
+        String externalId
+) {
+    public ProductDTO(String title, BigDecimal price, String url, Store store) {
+        this(title, price, url, store, null);
+    }
+}

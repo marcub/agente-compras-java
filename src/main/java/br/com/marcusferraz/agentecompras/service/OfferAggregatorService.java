@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -25,14 +26,16 @@ public class OfferAggregatorService {
     private final GroqService groqService;
     private final SearchLogService searchLogService;
     private final ChatMessageService chatMessageService;
+    private final SerpApiService serpApiService;
 
-    public OfferAggregatorService(List<StoreSearcher> storeSearchers, WhatsappSenderService whatsappSenderService, WhatsappMessageFormatter whatsappMessageFormatter, GroqService groqService, SearchLogService searchLogService, ChatMessageService chatMessageService) {
+    public OfferAggregatorService(List<StoreSearcher> storeSearchers, WhatsappSenderService whatsappSenderService, WhatsappMessageFormatter whatsappMessageFormatter, GroqService groqService, SearchLogService searchLogService, ChatMessageService chatMessageService, SerpApiService serpApiService) {
         this.storeSearchers = storeSearchers;
         this.whatsappSenderService = whatsappSenderService;
         this.whatsappMessageFormatter = whatsappMessageFormatter;
         this.groqService = groqService;
         this.searchLogService = searchLogService;
         this.chatMessageService = chatMessageService;
+        this.serpApiService = serpApiService;
     }
 
     @Async
@@ -64,7 +67,27 @@ public class OfferAggregatorService {
         }
 
         List<ProductDTO> bestOffers = filterAndGroupByStore(allOffers, term);
-        sendComparison(bestOffers, whatsappId, term);
+
+        List<ProductDTO> finalOffers = new ArrayList<>();
+        for (ProductDTO offer : bestOffers) {
+            if (offer.store() == Store.SHOPEE && offer.externalId() != null) {
+                String realLink = serpApiService.getShopeeDirectLink(offer.externalId());
+                if (realLink != null && !realLink.isEmpty()) {
+                    finalOffers.add(new ProductDTO(
+                            offer.title(),
+                            offer.price(),
+                            realLink,
+                            offer.store(),
+                            offer.externalId()
+                    ));
+                } else {
+                    finalOffers.add(offer);
+                }
+            } else {
+                finalOffers.add(offer);
+            }
+        }
+        sendComparison(finalOffers, whatsappId, term);
     }
 
     private List<ProductDTO> filterAndGroupByStore(List<ProductDTO> offers, String term) {
