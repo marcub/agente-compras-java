@@ -3,6 +3,7 @@ package br.com.marcusferraz.agentecompras.service.search;
 import br.com.marcusferraz.agentecompras.dto.ProductDTO;
 import br.com.marcusferraz.agentecompras.model.enums.Store;
 import br.com.marcusferraz.agentecompras.utils.PriceUtils;
+import br.com.marcusferraz.agentecompras.utils.ScraperUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +17,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MagazineLuizaSearcher implements StoreSearcher {
@@ -33,19 +35,12 @@ public class MagazineLuizaSearcher implements StoreSearcher {
         String encodedTerm = URLEncoder.encode(userTerm, StandardCharsets.UTF_8);
         String url = "https://www.magazineluiza.com.br/busca/" + encodedTerm;
 
+        ScraperUtils.sleepRandomInterval();
+
+        Map<String, String> headers = ScraperUtils.getRandomBrowserProfile();
         Document document = Jsoup.connect(url)
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8")
-                .header("Accept-Language", "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
-                .header("Accept-Encoding", "gzip, deflate, br")
-                .header("Referer", "https://www.google.com/")
-                .header("Connection", "keep-alive")
-                .header("Upgrade-Insecure-Requests", "1")
-                .header("Sec-Fetch-Dest", "document")
-                .header("Sec-Fetch-Mode", "navigate")
-                .header("Sec-Fetch-Site", "cross-site")
-                .header("Sec-Fetch-User", "?1")
-                .timeout(10000)
+                .headers(headers)
+                .timeout(15000)
                 .get();
 
         Elements items = document.select("div[data-testid='product-list'] li");
