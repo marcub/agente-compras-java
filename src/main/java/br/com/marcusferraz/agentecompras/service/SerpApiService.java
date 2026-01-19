@@ -1,6 +1,7 @@
 package br.com.marcusferraz.agentecompras.service;
 
 import br.com.marcusferraz.agentecompras.exception.ExternalServiceException;
+import br.com.marcusferraz.agentecompras.model.enums.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +41,6 @@ public class SerpApiService {
                     .queryParam("hl", "pt-br")
                     .queryParam("gl", "br")
                     .queryParam("location", "Brazil")
-                    .queryParam("shoprs", "CAEYAiodcGFuZWxhIGRlIHByZXNzw6NvIHRyYW1vbnRpbmEyCggCEgZTaG9wZWVYjrQgYAI")
                     .queryParam("api_key", apiKey)
                     .build()
                     .toUri();
@@ -79,7 +79,7 @@ public class SerpApiService {
         }
     }
 
-    public String getShopeeDirectLink(String pageToken) {
+    public String getDirectLink(String pageToken, Store storeEnum) {
         try {
             JsonNode root = googleImmersiveProduct(pageToken);
             JsonNode stores = root.path("product_results").path("stores");
@@ -87,13 +87,13 @@ public class SerpApiService {
             if (stores.isArray()) {
                 for (JsonNode store : stores) {
                     String name = store.path("name").asString();
-                    if (name.toLowerCase().contains("shopee")) {
+                    if (name.toLowerCase().contains(storeEnum.getName().toLowerCase())) {
                         return store.path("link").asString();
                     }
                 }
             }
         } catch (Exception e) {
-            logger.error("Failed to extract direct Shopee link for token: {}", pageToken, e);
+            logger.error("Failed to extract direct link for token: {}", pageToken, e);
         }
         return null;
     }
