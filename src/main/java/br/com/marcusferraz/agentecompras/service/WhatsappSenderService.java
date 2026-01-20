@@ -20,8 +20,8 @@ public class WhatsappSenderService {
     @Value("${evolution.url}")
     private String evolutionUrl;
 
-    @Value("${evolution.token}")
-    private String token;
+    @Value("${evolution.api.key}")
+    private String apiKey;
 
     @Value("${evolution.instance}")
     private String instance;
@@ -42,7 +42,7 @@ public class WhatsappSenderService {
         try {
             restClient.post()
                     .uri(uri)
-                    .header("apikey", token)
+                    .header("apikey", apiKey)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(body)
                     .retrieve()
