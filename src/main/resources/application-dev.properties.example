@@ -1,0 +1,20 @@
+# Database
+spring.datasource.url=jdbc:postgresql://localhost:5433/agente_compras_db
+spring.datasource.username=
+spring.datasource.password=
+
+# JPA
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+# API Keys
+groq.api.key=
+serpapi.api.key=
+evolution.url=
+evolution.token=
+
+# Logging
+logging.level.br.com.marcusferraz=DEBUG
+
+# Custom App Settings
+app.base-url=http://localhost:8080
