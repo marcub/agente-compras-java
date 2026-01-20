@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -55,7 +54,7 @@ public class OfferAggregatorService {
                 searchLogService.addSearchLog(whatsappId, term, storeOffers.size(), searcher.getStore(), SearchLogStatus.SUCCESS);
             } catch (Exception e) {
                 searchLogService.addSearchLog(whatsappId, term, 0, searcher.getStore(), SearchLogStatus.FAILURE);
-                logger.error("Error searching offers in store: {}", searcher.getStore().getName(), e);
+                logger.warn("Error searching offers in store: {}", searcher.getStore().getName(), e);
             }
         });
 

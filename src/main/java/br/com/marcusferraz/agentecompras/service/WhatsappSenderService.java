@@ -48,7 +48,7 @@ public class WhatsappSenderService {
                     .retrieve()
                     .toBodilessEntity();
 
-            logger.info("Sending message to: {}", whatsappId);
+            logger.debug("Sending message to: {}", whatsappId);
         } catch (Exception e) {
             throw new ExternalServiceException("Failed to send WhatsApp message to " + whatsappId, e);
         }

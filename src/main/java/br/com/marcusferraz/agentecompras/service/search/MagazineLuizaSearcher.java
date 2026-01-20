@@ -8,8 +8,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,8 +19,6 @@ import java.util.Map;
 
 @Service
 public class MagazineLuizaSearcher implements StoreSearcher {
-
-    private static final Logger logger = LoggerFactory.getLogger(AmazonSearcher.class);
 
     @Override
     public Store getStore() {

@@ -52,7 +52,6 @@ public class SerpApiService {
 
             return objectMapper.readTree(response);
         } catch (Exception e) {
-            logger.error("Error during SerpApi Google Shopping search for query: {}", query, e);
             throw new ExternalServiceException("Failed to perform search on SerpApi", e);
         }
     }
@@ -74,7 +73,6 @@ public class SerpApiService {
 
             return objectMapper.readTree(response);
         } catch (Exception e) {
-            logger.error("Error during SerpApi Google Immersive Product for query: {}", pageToken, e);
             throw new ExternalServiceException("Failed to perform search on SerpApi", e);
         }
     }
@@ -93,7 +91,7 @@ public class SerpApiService {
                 }
             }
         } catch (Exception e) {
-            logger.error("Failed to extract direct link for token: {}", pageToken, e);
+            logger.warn("Failed to extract direct link for pageToken: {}", pageToken, e);
         }
         return null;
     }

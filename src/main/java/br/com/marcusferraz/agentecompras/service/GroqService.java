@@ -94,7 +94,7 @@ public class GroqService {
         messages.add(new LlmRequest.Message("user", userText));
 
         try {
-            logger.info("Analyzing user intent with Groq LLM: {}", userText);
+            logger.debug("Analyzing user intent with Groq LLM: {}", userText);
 
             LlmRequest requestBody = new LlmRequest(
                     this.model,
@@ -111,7 +111,7 @@ public class GroqService {
             String jsonResponse = response.choices().get(0).message().content();
             return objectMapper.readValue(jsonResponse, LlmAnalysisResult.class);
         } catch (Exception e) {
-            logger.error("Error calling Groq", e);
+            logger.warn("Error calling Groq.", e);
             return new LlmAnalysisResult(false, null, "Desculpe, estou meio lento agora. Pode repetir?");
         }
     }
@@ -159,7 +159,7 @@ public class GroqService {
             }
             return validIds;
         } catch (Exception e) {
-            logger.info("Error filtering offers", e);
+            logger.warn("Failed to filter offers with LLM. Returning original list.", e);
             return offers.stream().map(offers::indexOf).toList();
         }
     }

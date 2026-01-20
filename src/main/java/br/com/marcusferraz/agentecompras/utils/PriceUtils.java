@@ -19,7 +19,7 @@ public class PriceUtils {
                     .replace(",", ".");
             return new BigDecimal(cleanedPrice);
         } catch (Exception e) {
-            logger.error("Error converting price: {}", priceStr, e);
+            logger.warn("Error converting price: {}", priceStr, e);
             return BigDecimal.ZERO;
         }
     }
