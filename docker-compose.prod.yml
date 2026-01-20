@@ -9,6 +9,7 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=${DB_PASSWORD}
       - EVOLUTION_URL=http://evolution-api:8080
+      - EVOLUTION_API_KEY=${EVOLUTION_API_KEY}
       - GROQ_API_KEY=${GROQ_API_KEY}
       - SERPAPI_API_KEY=${SERPAPI_API_KEY}
       - APP_BASE_URL=https://agentecompras.com.br

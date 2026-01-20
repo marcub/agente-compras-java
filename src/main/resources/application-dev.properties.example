@@ -11,7 +11,7 @@ spring.jpa.hibernate.ddl-auto=update
 groq.api.key=
 serpapi.api.key=
 evolution.url=
-evolution.token=
+evolution.api.key=
 
 # Logging
 logging.level.br.com.marcusferraz=DEBUG
