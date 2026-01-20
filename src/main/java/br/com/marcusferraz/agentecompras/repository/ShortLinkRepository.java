@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ShortLinkRepository extends JpaRepository<ShortLink, Long> {
 
-    Optional<ShortLink> findByUrl(String url);
+    Optional<ShortLink> findByUrlHash(String urlHash);
 }

@@ -20,7 +20,9 @@ public class UrlShortenerService {
     }
 
     public String shortLink(String url) {
-        return shortLinkRepository.findByUrl(url)
+        String hash = new ShortLink(url).getUrlHash();
+
+        return shortLinkRepository.findByUrlHash(hash)
                 .map(shortLink -> generateFinalUrl(shortLink.getId()))
                 .orElseGet(() -> {
                     ShortLink newShortLink = new ShortLink(url);
