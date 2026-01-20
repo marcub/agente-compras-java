@@ -4,27 +4,15 @@ import br.com.marcusferraz.agentecompras.dto.ProductDTO;
 import br.com.marcusferraz.agentecompras.model.enums.Store;
 import br.com.marcusferraz.agentecompras.service.SerpApiService;
 import br.com.marcusferraz.agentecompras.utils.PriceUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
 
-import java.awt.*;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ShopeeSearcher implements StoreSearcher {
-
-    private static final Logger logger = LoggerFactory.getLogger(ShopeeSearcher.class);
 
     private final SerpApiService serpApiService;
 

@@ -6,7 +6,6 @@ import br.com.marcusferraz.agentecompras.model.User;
 import br.com.marcusferraz.agentecompras.model.enums.ChatMessageRole;
 import br.com.marcusferraz.agentecompras.repository.ChatMessageRepository;
 import br.com.marcusferraz.agentecompras.repository.UserRepository;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
