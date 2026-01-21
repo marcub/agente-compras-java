@@ -24,7 +24,7 @@ services:
     networks:
       - agente-network
     ports:
-      - "8080:8080"
+      - "80:8080"
 
   postgres:
     image: postgres:16-alpine
