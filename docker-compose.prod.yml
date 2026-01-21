@@ -8,6 +8,7 @@ services:
     restart: always
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - DB_URL=jdbc:postgresql://postgres:5432/agente_compras_db
       - DB_USERNAME=postgres
       - DB_PASSWORD=${DB_PASSWORD}
