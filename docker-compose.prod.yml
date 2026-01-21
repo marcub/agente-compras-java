@@ -1,5 +1,8 @@
 services:
   app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: marcusferraz/agente-compras:latest
     container_name: agente-app
     restart: always
