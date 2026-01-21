@@ -18,7 +18,7 @@ public class RedirectController {
     }
 
     @GetMapping("/r/{code}")
-    public void redirect(@PathVariable String code, HttpServletResponse response) throws IOException {
+    public void redirect(@PathVariable("code") String code, HttpServletResponse response) throws IOException {
         String url = urlShortenerService.decodeUrl(code);
         if (url != null) {
             response.sendRedirect(url);
