@@ -10,6 +10,7 @@ spring.jpa.hibernate.ddl-auto=update
 # API Keys
 groq.api.key=
 serpapi.api.key=
+evolution.instance=
 evolution.url=
 evolution.api.key=
 
@@ -17,4 +18,4 @@ evolution.api.key=
 logging.level.br.com.marcusferraz=DEBUG
 
 # Custom App Settings
-app.base-url=http://localhost:8080
+app.base-url=
