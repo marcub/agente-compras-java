@@ -60,7 +60,7 @@ public class WhatsappMessageFormatter {
                 case AMAZON -> "https://www.amazon.com.br/s?k=" + encodedTerm;
                 case MAGAZINE_LUIZA -> "https://www.magazineluiza.com.br/busca/" + encodedTerm;
                 case SHOPEE -> "https://shopee.com.br/search?keyword=" + encodedTerm;
-                case CASAS_BAHIA -> "https://www.casasbahia.com.br/b/" + encodedTerm;
+                case CASAS_BAHIA -> "https://www.casasbahia.com.br/" + encodedTerm + "/b";
                 case MERCADO_LIVRE -> "https://lista.mercadolivre.com.br/" + encodedTerm;
                 default -> null;
             };
