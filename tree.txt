@@ -1,0 +1,206 @@
+Listagem de caminhos de pasta
+O número de série do volume é AEB9-E1F0
+C:.
+│   .env
+│   .env.example
+│   .gitattributes
+│   .gitignore
+│   create-databases.sql
+│   docker-compose.prod.yml
+│   docker-compose.yml
+│   Dockerfile
+│   mvnw
+│   mvnw.cmd
+│   pom.xml
+│   README.md
+│   tree.txt
+│   
+├───.idea
+│       .gitignore
+│       compiler.xml
+│       encodings.xml
+│       jarRepositories.xml
+│       misc.xml
+│       uiDesigner.xml
+│       vcs.xml
+│       workspace.xml
+│       
+├───.mvn
+│   └───wrapper
+│           maven-wrapper.properties
+│           
+├───src
+│   ├───main
+│   │   ├───java
+│   │   │   └───br
+│   │   │       └───com
+│   │   │           └───marcusferraz
+│   │   │               └───agentecompras
+│   │   │                   │   AgenteComprasApplication.java
+│   │   │                   │   
+│   │   │                   ├───controller
+│   │   │                   │       RedirectController.java
+│   │   │                   │       WhatsappWebhookController.java
+│   │   │                   │       
+│   │   │                   ├───dto
+│   │   │                   │   │   ProductDTO.java
+│   │   │                   │   │   UserDTO.java
+│   │   │                   │   │   
+│   │   │                   │   └───llm
+│   │   │                   │           LlmAnalysisResult.java
+│   │   │                   │           LlmRequest.java
+│   │   │                   │           LlmResponse.java
+│   │   │                   │           
+│   │   │                   ├───exception
+│   │   │                   │       AgentErrorDTO.java
+│   │   │                   │       AgentException.java
+│   │   │                   │       ExternalServiceException.java
+│   │   │                   │       GlobalExceptionHandler.java
+│   │   │                   │       UserNotFoundException.java
+│   │   │                   │       
+│   │   │                   ├───model
+│   │   │                   │   │   ChatMessage.java
+│   │   │                   │   │   SearchLog.java
+│   │   │                   │   │   ShortLink.java
+│   │   │                   │   │   User.java
+│   │   │                   │   │   
+│   │   │                   │   └───enums
+│   │   │                   │           ChatMessageRole.java
+│   │   │                   │           SearchLogStatus.java
+│   │   │                   │           Store.java
+│   │   │                   │           
+│   │   │                   ├───repository
+│   │   │                   │       ChatMessageRepository.java
+│   │   │                   │       SearchLogRepository.java
+│   │   │                   │       ShortLinkRepository.java
+│   │   │                   │       UserRepository.java
+│   │   │                   │       
+│   │   │                   ├───service
+│   │   │                   │   │   ChatMessageService.java
+│   │   │                   │   │   GroqService.java
+│   │   │                   │   │   OfferAggregatorService.java
+│   │   │                   │   │   SearchLogService.java
+│   │   │                   │   │   SerpApiService.java
+│   │   │                   │   │   UrlShortenerService.java
+│   │   │                   │   │   UserService.java
+│   │   │                   │   │   WhatsappSenderService.java
+│   │   │                   │   │   
+│   │   │                   │   ├───formatter
+│   │   │                   │   │       WhatsappMessageFormatter.java
+│   │   │                   │   │       
+│   │   │                   │   └───search
+│   │   │                   │           AmazonSearcher.java
+│   │   │                   │           CasasBahiaSearcher.java
+│   │   │                   │           MagazineLuizaSearcher.java
+│   │   │                   │           MercadoLivreSearcher.java
+│   │   │                   │           ShopeeSearcher.java
+│   │   │                   │           StoreSearcher.java
+│   │   │                   │           
+│   │   │                   └───utils
+│   │   │                           Base62Utils.java
+│   │   │                           PriceUtils.java
+│   │   │                           ScraperUtils.java
+│   │   │                           
+│   │   └───resources
+│   │       │   application-dev.properties
+│   │       │   application-dev.properties.example
+│   │       │   application-prod.properties
+│   │       │   application.properties
+│   │       │   
+│   │       ├───static
+│   │       └───templates
+│   └───test
+│       └───java
+│           └───br
+│               └───com
+│                   └───marcusferraz
+│                       └───agentecompras
+│                               AgenteComprasApplicationTests.java
+│                               
+└───target
+    ├───classes
+    │   │   application-dev.properties
+    │   │   application-dev.properties.example
+    │   │   application-prod.properties
+    │   │   application.properties
+    │   │   
+    │   └───br
+    │       └───com
+    │           └───marcusferraz
+    │               └───agentecompras
+    │                   │   AgenteComprasApplication.class
+    │                   │   
+    │                   ├───controller
+    │                   │       RedirectController.class
+    │                   │       WhatsappWebhookController.class
+    │                   │       
+    │                   ├───dto
+    │                   │   │   ProductDTO.class
+    │                   │   │   UserDTO.class
+    │                   │   │   
+    │                   │   └───llm
+    │                   │           LlmAnalysisResult.class
+    │                   │           LlmRequest$Message.class
+    │                   │           LlmRequest$ResponseFormat.class
+    │                   │           LlmRequest.class
+    │                   │           LlmResponse$Choice.class
+    │                   │           LlmResponse$Message.class
+    │                   │           LlmResponse.class
+    │                   │           
+    │                   ├───exception
+    │                   │       AgentErrorDTO.class
+    │                   │       AgentException.class
+    │                   │       ExternalServiceException.class
+    │                   │       GlobalExceptionHandler.class
+    │                   │       UserNotFoundException.class
+    │                   │       
+    │                   ├───model
+    │                   │   │   ChatMessage.class
+    │                   │   │   SearchLog.class
+    │                   │   │   ShortLink.class
+    │                   │   │   User.class
+    │                   │   │   
+    │                   │   └───enums
+    │                   │           ChatMessageRole.class
+    │                   │           SearchLogStatus.class
+    │                   │           Store.class
+    │                   │           
+    │                   ├───repository
+    │                   │       ChatMessageRepository.class
+    │                   │       SearchLogRepository.class
+    │                   │       ShortLinkRepository.class
+    │                   │       UserRepository.class
+    │                   │       
+    │                   ├───service
+    │                   │   │   ChatMessageService.class
+    │                   │   │   GroqService.class
+    │                   │   │   OfferAggregatorService.class
+    │                   │   │   SearchLogService.class
+    │                   │   │   SerpApiService.class
+    │                   │   │   UrlShortenerService.class
+    │                   │   │   UserService.class
+    │                   │   │   WhatsappSenderService.class
+    │                   │   │   
+    │                   │   ├───formatter
+    │                   │   │       WhatsappMessageFormatter$1.class
+    │                   │   │       WhatsappMessageFormatter.class
+    │                   │   │       
+    │                   │   └───search
+    │                   │           AmazonSearcher.class
+    │                   │           CasasBahiaSearcher.class
+    │                   │           MagazineLuizaSearcher.class
+    │                   │           MercadoLivreSearcher.class
+    │                   │           ShopeeSearcher.class
+    │                   │           StoreSearcher.class
+    │                   │           
+    │                   └───utils
+    │                           Base62Utils.class
+    │                           PriceUtils.class
+    │                           ScraperUtils.class
+    │                           
+    ├───generated-sources
+    │   └───annotations
+    └───maven-status
+        └───maven-compiler-plugin
+            └───compile
+                └───default-compile

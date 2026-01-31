@@ -1,39 +1,10 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: agente-app
-    ports:
-      - "8080:8080"
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=agente_compras_db
-      - DB_USER=postgres
-      - DB_PASSWORD=${DB_PASSWORD}
-      - EVOLUTION_INSTANCE=${EVOLUTION_INSTANCE}
-      - EVOLUTION_URL=http://evolution-api:8080
-      - EVOLUTION_API_KEY=${EVOLUTION_API_KEY}
-      - GROQ_API_KEY=${GROQ_API_KEY}
-      - SERPAPI_API_KEY=${SERPAPI_API_KEY}
-      - APP_BASE_URL=${APP_BASE_URL}
-      - SHOW_SQL=true
-      - LOGGING_LEVEL=DEBUG
-    depends_on:
-      - postgres
-      - evolution-api
-    networks:
-      - agente-network
-
   postgres:
     image: postgres:16-alpine
     container_name: agente-compras-db
-    restart: always
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
-      - POSTGRES_DB=agente_compras_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
@@ -45,12 +16,16 @@ services:
   evolution-api:
     image: evoapicloud/evolution-api:v2.3.7
     container_name: evolution-api
+    restart: always
+    ports:
+      - "8081:8080"
     environment:
       - SERVER_URL=http://localhost:8081
       - DOCKER_ENV=true
       - AUTHENTICATION_API_KEY=${EVOLUTION_API_KEY}
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://postgres:${DB_PASSWORD}@postgres:5432/evolution_db
+      - DATABASE_CLIENT_NAME=evolution_exchange
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URI=redis://redis:6379/0
     depends_on:
@@ -58,15 +33,15 @@ services:
       - redis
     networks:
       - agente-network
-    ports:
-      - "8081:8080"
 
   redis:
     image: redis:alpine
     container_name: agente-redis
-    command: ["redis-server", "--appendonly", "yes"]
+    command: [ "redis-server", "--appendonly", "yes" ]
     volumes:
       - redis_data:/data
+    ports:
+      - "6379:6379"
     networks:
       - agente-network
 
